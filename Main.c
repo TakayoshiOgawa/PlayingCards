@@ -1,4 +1,6 @@
 #include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
 
 int main(void)
 {
@@ -11,11 +13,24 @@ int main(void)
     short int deck[DECK_MAX];
     short int suit, rank;
     short int index;
+    short int rnd, tmp;
+
+    // 乱数の初期化
+    srand((unsigned int)time(NULL));
 
     // 山札の初期化
     for (index = 0; index < DECK_MAX; index++)
     {
         deck[index] = index+1;
+    }
+
+    // 山札を混ぜる
+    for (index = 0; index < DECK_MAX; index++)
+    {
+        rnd = rand()%CARDS_RANK_MAX;
+        tmp = deck[index];
+        deck[index] = deck[rnd];
+        deck[rnd] = tmp;
     }
 
     // トランプの文字列表記
