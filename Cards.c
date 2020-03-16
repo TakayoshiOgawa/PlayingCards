@@ -4,7 +4,7 @@
 // 山札の初期化
 void DeckInit(short int* deck, size_t length)
 {
-    short int index = 0;
+    int index = 0;
     for (index = 0; index < length; index++)
     {
         deck[index] = index+1;
@@ -14,8 +14,8 @@ void DeckInit(short int* deck, size_t length)
 // 山札を混ぜる
 void DeckShuffle(short int* deck, size_t length)
 {
-    short int rnd, tmp;
-    short int index;
+    int rnd, tmp;
+    int index;
 
     // 山札の枚数分入れ替え処理を行う
     for (index = 0; index < length; index++)
@@ -55,7 +55,7 @@ short int GetRank(short int id)
 // 役柄の文字列を取得
 void GetSuitStr(short int id, char* result)
 {
-    char* suit[SUIT_MAX] = {"♤ ","♡ ","♢ ","♧ "};
+    char* suit[SUIT_MAX] = {"♤","♡","♢","♧"};
     sprintf(result, "%s", suit[GetSuit(id)]);
 }
 
