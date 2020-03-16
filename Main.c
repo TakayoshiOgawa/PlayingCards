@@ -10,6 +10,9 @@ int main(void)
     size_t length = sizeof(deck)/sizeof(deck[0]);
     // 確認用のドロー回数
     short int drawCnt;
+    // 引いたカードの番号
+    short int drawCard;
+    char* str;
 
     // 乱数の初期化
     srand((unsigned int)time(NULL));
@@ -17,16 +20,21 @@ int main(void)
     // 山札の初期化
     DeckInit(deck, length);
 
-    // 山札を混ぜる
-    DeckShuffle(deck, length);
+    // // 山札を混ぜる
+    // DeckShuffle(deck, length);
 
     // トランプの文字列表記
     drawCnt = length;
     while(0 <= --drawCnt)
     {
+        // 山札から１枚ドロー
+        drawCard = DeckDraw(deck,length,drawCnt);
         // トランプの内容を表記
         printf("%d：",drawCnt+1);
-        PrintCards(DeckDraw(deck,length,drawCnt));
+        GetSuitStr(drawCard, str);
+        printf("%s ",str);
+        GetRankStr(drawCard, str);
+        printf("%s ",str);
         printf("\n");
     }
 

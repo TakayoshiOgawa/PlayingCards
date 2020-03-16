@@ -40,30 +40,35 @@ short int DeckDraw(short int* deck, size_t length, short int index)
     return result;
 }
 
-// カードの表記
-void PrintCards(short int id)
+// 役柄の取得
+short int GetSuit(short int id)
 {
-    // トランプの役柄と強さを算出
-    short int suit = (id-1)/CARDS_RANK_MAX;
-    short int rank = (id%CARDS_RANK_MAX)+1;
+    return (id-1)/CARDS_RANK_MAX;
+}
 
-    // 役柄の表記
-    switch (suit)
-    {
-        case SPADES:    printf("♤ ");      break;
-        case HEARTS:    printf("♡ ");      break;
-        case DIAMONDOS: printf("♢ ");      break;
-        case CLUBS:     printf("♧ ");      break;
-        default:        printf("Joker");   break;
-    }
+// 強さの取得
+short int GetRank(short int id)
+{
+    return (id%CARDS_RANK_MAX)+1;
+}
 
-    // 強さの表記
+// 役柄の文字列を取得
+void GetSuitStr(short int id, char* result)
+{
+    char* suit[SUIT_MAX] = {"♤ ","♡ ","♢ ","♧ "};
+    sprintf(result, "%s", suit[GetSuit(id)]);
+}
+
+// 強さの文字列を取得
+void GetRankStr(short int id, char* result)
+{
+    short int rank = GetRank(id);
     switch (rank)
     {
-        case 13: printf("K");           break;
-        case 12: printf("Q");           break;
-        case 11: printf("J");           break;
-        case 1:  printf("A");           break;
-        default: printf("%d", rank);    break;
+        case 13:    sprintf(result, "%s", "K");  break;
+        case 12:    sprintf(result, "%s", "Q");  break;
+        case 11:    sprintf(result, "%s", "J");  break;
+        case 1:     sprintf(result, "%s", "A");  break;
+        default:    sprintf(result, "%d", rank); break;
     }
 }
