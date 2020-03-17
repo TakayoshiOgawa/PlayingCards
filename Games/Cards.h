@@ -11,7 +11,7 @@ enum tag_suit {
     DIAMONDOS,
     CLUBS,
     SUIT_MAX,
-}
+};
 typedef enum tag_suit SUIT;
 
 // 山札の初期化
