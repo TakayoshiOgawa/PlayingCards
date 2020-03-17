@@ -11,7 +11,8 @@ enum tag_suit {
     DIAMONDOS,
     CLUBS,
     SUIT_MAX,
-}SUIT;
+}
+typedef enum tag_suit SUIT;
 
 // 山札の初期化
 void DeckInit(short int* deck,  size_t length);
