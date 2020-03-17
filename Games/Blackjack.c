@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<time.h>
 #include"Cards.h"
-#include"Util.h"
+#include"../Util.h"
 
 #define RANK_MAX (10)
 #define BJ (21)
@@ -26,7 +26,7 @@ short int _GetValue(short int id);
 short int _CalcHand(short int* hands, size_t length);
 
 // ブラックジャック
-void Blackjack(void)
+int Blackjack(void)
 {
     // 山札とシステム
     short int deck[SUIT_MAX * CARDS_RANK_MAX];
@@ -43,6 +43,8 @@ void Blackjack(void)
     const int PLAYER_HAND_MAX = 9;
     short int dealer[DEALER_HAND_MAX];
     short int player[PLAYER_HAND_MAX];
+    short int dealerHand = 0;
+    short int playerHand = 0;
     short int handTotal = 0;
     int playerHandCnt = 0;
     // 手札の初期化
@@ -62,11 +64,11 @@ void Blackjack(void)
     // プレイヤーが２枚引く
     player[playerHandCnt++] = DeckDraw(deck,LENGTH,drawCnt++);
     player[playerHandCnt++] = DeckDraw(deck,LENGTH,drawCnt++);
-    // プレイヤの手札合計を算出
-    handTotal=_CalcHand(player,playerHandCnt);
+    // プレイヤーの手札を計算
+    playerHand=_CalcHand(player,playerHandCnt);
 
     // プレイヤーがバースト、もしくはスタンド選択で
-    while (!selectStand&&handTotal<BJ)
+    while (!selectStand&&playerHand<BJ)
     {
         // 消去コマンドの実行
         system("clear");
@@ -76,8 +78,9 @@ void Blackjack(void)
         _ShowCard(dealer[0]);
         printf(",%s", "??");
         printf("\n");
+
         // プレイヤの手札を表示
-        printf("1[%d]", handTotal);
+        printf("1[%d]", playerHand);
         for(index = 0; index < playerHandCnt; index++)
         {
             _ShowCard(player[index]);
@@ -102,11 +105,11 @@ void Blackjack(void)
                 selectStand=TRUE;
                 break;
             default:
-                exit(0);
+                return FALSE;
                 break;
         }
         // プレイヤの手札合計を算出
-        handTotal=_CalcHand(player,playerHandCnt);
+        playerHand=_CalcHand(player,playerHandCnt);
     }
 
     // 消去コマンドの実行
@@ -118,18 +121,22 @@ void Blackjack(void)
     }
     else
     {
-        printf("%s\n", (handTotal==BJ)?"BlackJack!":"Bust!!");
+        printf("%s\n", (playerHand==BJ)?"BlackJack!":"Bust!!");
     }
 
+    // 双方の手札を計算
+    dealerHand = _CalcHand(dealer, DEALER_HAND_MAX);
+    playerHand = _CalcHand(player, playerHandCnt);
+
     // ディーラーのカードを捲る
-    printf("D[%d]", _CalcHand(dealer, DEALER_HAND_MAX));
+    printf("D[%d]", dealerHand);
     for(index = 0; index < DEALER_HAND_MAX; index++)
     {
         _ShowCard(dealer[index]);
         printf("%s", (index == DEALER_HAND_MAX-1)?"\n":","); 
     }
     // プレイヤーのカードを再表示       
-    printf("1[%d]", _CalcHand(player, playerHandCnt));
+    printf("1[%d]", playerHand);
     for(index = 0; index < playerHandCnt; index++)
     {
         _ShowCard(player[index]);
@@ -138,8 +145,8 @@ void Blackjack(void)
 
     // 勝敗を判定
     printf("\n");
-    handTotal -= _CalcHand(dealer, DEALER_HAND_MAX);
-    if (handTotal <= 0 || (!selectStand&&handTotal!=BJ))
+    handTotal = playerHand - dealerHand;
+    if (handTotal < 0 || (!selectStand&&handTotal!=BJ))
     {
         printf("You Lose...");
     }
@@ -147,12 +154,14 @@ void Blackjack(void)
     {
         printf("Draw Game.");
     }
-    else if (handTotal >= 0)
+    else if (handTotal > 0)
     {
         printf("You Win!!");
     }
     printf("\n");
     printf("\n");
+
+    return TRUE;
 }
 
 // カードの表記
