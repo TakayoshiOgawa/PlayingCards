@@ -5,6 +5,10 @@ typedef int BOOL;
 #define TRUE (1)
 #define FALSE (0)
 
+#ifdef __GNUC__
+#define CLS "clear"
+#endif
+
 // 汎用マクロ式
 #define CountOf(ary) (sizeof(ary)/sizeof(ary[0]))
 #define Min(a,b) ((a)<(b)?(a):(b))

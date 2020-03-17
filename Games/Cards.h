@@ -27,3 +27,6 @@ short int GetRank(short int id);
 void GetSuitStr(short int id, char* result);
 // 強さの文字列を取得
 void GetRankStr(short int id, char* result);
+// カードの表記
+void ShowCard(short int id);
+

@@ -72,3 +72,13 @@ void GetRankStr(short int id, char* result)
         default:    sprintf(result, "%d", rank); break;
     }
 }
+
+// カードの表記
+void ShowCard(short int id)
+{
+    char str[5];
+    GetSuitStr(id, str);
+    printf("%s ", str);
+    GetRankStr(id, str);
+    printf("%s", str);
+}

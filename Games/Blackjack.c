@@ -7,17 +7,16 @@
 #define RANK_MAX (10)
 #define BJ (21)
 
-typedef enum tag_bj_command
+enum tag_bj_command
 {
     NONE,
     HIT,
     STAND,
     BJ_COMMAND_MAX,
-}BJ_COMMAND;
+};
+typedef enum tag_bj_command BJ_COMMAND;
 char* commandList[BJ_COMMAND_MAX] = {"Surrender", "Hit", "Stand"};
 
-// カードの表記
-void _ShowCard(short int id);
 // 配列の合計を算出
 short int _ArrayTotal(short int* array, size_t length);
 // ゲーム依存の値を取得
@@ -71,11 +70,11 @@ int Blackjack(void)
     while (!selectStand&&playerHand<BJ)
     {
         // 消去コマンドの実行
-        system("clear");
+        system(CLS);
 
         // ディーラーの手札を表示（片方は非表示）
         printf("D[%d]", _GetValue(dealer[0]));
-        _ShowCard(dealer[0]);
+        ShowCard(dealer[0]);
         printf(",%s", "??");
         printf("\n");
 
@@ -83,7 +82,7 @@ int Blackjack(void)
         printf("1[%d]", playerHand);
         for(index = 0; index < playerHandCnt; index++)
         {
-            _ShowCard(player[index]);
+            ShowCard(player[index]);
             printf("%s", (index == playerHandCnt-1)?"\n":","); 
         }
 
@@ -132,14 +131,14 @@ int Blackjack(void)
     printf("D[%d]", dealerHand);
     for(index = 0; index < DEALER_HAND_MAX; index++)
     {
-        _ShowCard(dealer[index]);
+        ShowCard(dealer[index]);
         printf("%s", (index == DEALER_HAND_MAX-1)?"\n":","); 
     }
     // プレイヤーのカードを再表示       
     printf("1[%d]", playerHand);
     for(index = 0; index < playerHandCnt; index++)
     {
-        _ShowCard(player[index]);
+        ShowCard(player[index]);
         printf("%s", (index == playerHandCnt-1)?"\n":","); 
     }
 
@@ -162,16 +161,6 @@ int Blackjack(void)
     printf("\n");
 
     return TRUE;
-}
-
-// カードの表記
-void _ShowCard(short int id)
-{
-    char str[5];
-    GetSuitStr(id, str);
-    printf("%s ", str);
-    GetRankStr(id, str);
-    printf("%s", str);
 }
 
 // 配列の合計を算出
